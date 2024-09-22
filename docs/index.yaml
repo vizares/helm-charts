@@ -3,7 +3,7 @@ entries:
   aws-agent:
   - apiVersion: v2
     appVersion: 0.0.1
-    created: "2024-09-22T21:28:16.5727348+05:30"
+    created: "2024-09-22T21:32:10.3795558+05:30"
     description: A prometheus exporter that gathers metrics from AWS services.
     digest: b908eb7517c4eb69e917032d671934eeea3e4c8b925118fdd82bc3eb8706c84d
     name: aws-agent
@@ -14,7 +14,7 @@ entries:
   node-agent:
   - apiVersion: v2
     appVersion: 0.0.2
-    created: "2024-09-22T21:28:16.5727348+05:30"
+    created: "2024-09-22T21:32:10.3795558+05:30"
     description: A Prometheus exporter based on eBPF that gathers comprehensive container
       metrics.
     digest: 6817707add5e8137a376cd8b1978bcd8f6128f5721b9b9004f8723d0121628b7
@@ -23,10 +23,31 @@ entries:
     urls:
     - https://vizares.github.io/helm-charts/node-agent-0.0.2.tgz
     version: 0.0.2
+  otel-demo:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2024-09-22T21:32:10.4299664+05:30"
+    dependencies:
+    - name: opentelemetry-demo
+      repository: https://open-telemetry.github.io/opentelemetry-helm-charts
+      version: 0.28.3
+    - name: vizares
+      repository: https://vizares.github.io/helm-charts
+      version: 0.0.2
+    - name: chaos-mesh
+      repository: https://charts.chaos-mesh.org
+      version: 2.6.3
+    description: otel-demo
+    digest: 68b93e8326e97a783ba07d33a36de79115c1e0a0f0cbcf6e5c46da2e5abead34
+    name: otel-demo
+    type: application
+    urls:
+    - https://vizares.github.io/helm-charts/otel-demo-0.0.1.tgz
+    version: 0.0.1
   vizares:
   - apiVersion: v2
     appVersion: 0.0.2
-    created: "2024-09-22T21:28:16.5916556+05:30"
+    created: "2024-09-22T21:32:10.4419931+05:30"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -47,4 +68,4 @@ entries:
     urls:
     - https://vizares.github.io/helm-charts/vizares-0.0.2.tgz
     version: 0.0.2
-generated: "2024-09-22T21:28:16.572103+05:30"
+generated: "2024-09-22T21:32:10.3795558+05:30"
