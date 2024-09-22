@@ -3,7 +3,7 @@ entries:
   aws-agent:
   - apiVersion: v2
     appVersion: 0.0.1
-    created: "2024-09-22T21:32:10.3795558+05:30"
+    created: "2024-09-22T22:32:27.391147+05:30"
     description: A prometheus exporter that gathers metrics from AWS services.
     digest: b908eb7517c4eb69e917032d671934eeea3e4c8b925118fdd82bc3eb8706c84d
     name: aws-agent
@@ -14,7 +14,7 @@ entries:
   node-agent:
   - apiVersion: v2
     appVersion: 0.0.2
-    created: "2024-09-22T21:32:10.3795558+05:30"
+    created: "2024-09-22T22:32:27.3946159+05:30"
     description: A Prometheus exporter based on eBPF that gathers comprehensive container
       metrics.
     digest: 6817707add5e8137a376cd8b1978bcd8f6128f5721b9b9004f8723d0121628b7
@@ -26,7 +26,7 @@ entries:
   otel-demo:
   - apiVersion: v2
     appVersion: 0.0.1
-    created: "2024-09-22T21:32:10.4299664+05:30"
+    created: "2024-09-22T22:32:27.441717+05:30"
     dependencies:
     - name: opentelemetry-demo
       repository: https://open-telemetry.github.io/opentelemetry-helm-charts
@@ -47,7 +47,7 @@ entries:
   vizares:
   - apiVersion: v2
     appVersion: 0.0.2
-    created: "2024-09-22T21:32:10.4419931+05:30"
+    created: "2024-09-22T22:32:27.4547931+05:30"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -62,10 +62,10 @@ entries:
       repository: https://charts.bitnami.com/bitnami
       version: 6.2.*
     description: A monitoring and troubleshooting tool for microservice architectures.
-    digest: 9fef1a6c595f9113a3b0586ba56e15dfa0f79dfdd194b79ac621f89e161324b9
+    digest: 3b6d927b429ab38c35bdbb511fe9b8b2358895ec68f937bfe818325839cc7868
     name: vizares
     type: application
     urls:
     - https://vizares.github.io/helm-charts/vizares-0.0.2.tgz
     version: 0.0.2
-generated: "2024-09-22T21:32:10.3795558+05:30"
+generated: "2024-09-22T22:32:27.3805934+05:30"

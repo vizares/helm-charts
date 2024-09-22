@@ -12,7 +12,7 @@ Once Helm is set up properly, add the repo and install Vizares Observability:
 ```console
 helm repo add vizares https://vizares.github.io/helm-charts
 helm repo update
-helm upgrade --install --namespace vizares --create-namespace vizares vizares/vizares-observability
+helm upgrade --install --namespace vizares --create-namespace vizares vizares/vizares
 ```
 
 ## License
