@@ -3,7 +3,7 @@ entries:
   aws-agent:
   - apiVersion: v2
     appVersion: 0.0.1
-    created: "2024-09-22T21:23:32.4297323+05:30"
+    created: "2024-09-22T21:28:16.5727348+05:30"
     description: A prometheus exporter that gathers metrics from AWS services.
     digest: b908eb7517c4eb69e917032d671934eeea3e4c8b925118fdd82bc3eb8706c84d
     name: aws-agent
@@ -14,7 +14,7 @@ entries:
   node-agent:
   - apiVersion: v2
     appVersion: 0.0.2
-    created: "2024-09-22T21:23:32.4349478+05:30"
+    created: "2024-09-22T21:28:16.5727348+05:30"
     description: A Prometheus exporter based on eBPF that gathers comprehensive container
       metrics.
     digest: 6817707add5e8137a376cd8b1978bcd8f6128f5721b9b9004f8723d0121628b7
@@ -23,4 +23,28 @@ entries:
     urls:
     - https://vizares.github.io/helm-charts/node-agent-0.0.2.tgz
     version: 0.0.2
-generated: "2024-09-22T21:23:32.4171697+05:30"
+  vizares:
+  - apiVersion: v2
+    appVersion: 0.0.2
+    created: "2024-09-22T21:28:16.5916556+05:30"
+    dependencies:
+    - condition: prometheus.enabled
+      name: prometheus
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 25.21.*
+    - condition: node-agent.enabled
+      name: node-agent
+      repository: https://vizares.github.io/helm-charts
+      version: 0.0.2
+    - condition: clickhouse.enabled
+      name: clickhouse
+      repository: https://charts.bitnami.com/bitnami
+      version: 6.2.*
+    description: A monitoring and troubleshooting tool for microservice architectures.
+    digest: 9fef1a6c595f9113a3b0586ba56e15dfa0f79dfdd194b79ac621f89e161324b9
+    name: vizares
+    type: application
+    urls:
+    - https://vizares.github.io/helm-charts/vizares-0.0.2.tgz
+    version: 0.0.2
+generated: "2024-09-22T21:28:16.572103+05:30"
