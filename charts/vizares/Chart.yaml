@@ -1,0 +1,19 @@
+apiVersion: v2
+name: vizares
+description: A monitoring and troubleshooting tool for microservice architectures.
+type: application
+version: 0.15.1
+appVersion: "1.5.1"
+dependencies:
+  - name: prometheus
+    repository: https://prometheus-community.github.io/helm-charts
+    version: 15.16.*
+    condition: prometheus.enabled
+  - name: node-agent
+    version: 0.1.91
+    repository: https://vizares.github.io/helm-charts
+    condition: node-agent.enabled
+  - name: clickhouse
+    version: 3.1.*
+    repository: https://charts.bitnami.com/bitnami
+    condition: clickhouse.enabled

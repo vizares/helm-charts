@@ -1,0 +1,21 @@
+{{- if .Values.vizaresCE.enabled -}}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ template "vizares.fullname" . }}-data
+  labels:
+    {{- include "vizares.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.vizaresCE.persistentVolume.size | quote }}
+{{- if .Values.vizaresCE.persistentVolume.storageClassName }}
+{{- if (eq "-" .Values.vizaresCE.persistentVolume.storageClassName) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: "{{ .Values.vizaresCE.persistentVolume.storageClassName }}"
+{{- end }}
+{{- end }}
+{{- end -}}

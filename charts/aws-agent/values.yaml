@@ -1,0 +1,54 @@
+aws:
+  region: ""
+  key: ""
+  secret: ""
+
+rds:
+  user: ""
+  password: ""
+  filter: ""
+
+ec:
+  filter: ""
+
+replicaCount: 1
+
+image:
+  repository: ghcr.io/coroot/coroot-aws-agent
+  pullPolicy: IfNotPresent
+  tag: ""
+
+port: 80
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+podAnnotations: {}
+
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+priorityClassName: ""
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+podMonitor: false

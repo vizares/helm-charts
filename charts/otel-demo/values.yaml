@@ -1,0 +1,139 @@
+opentelemetry-demo:
+  grafana:
+    enabled: false
+  prometheus:
+    enabled: false
+  jaeger:
+    enabled: false
+  opentelemetry-collector:
+    enabled: true
+    resources:
+      requests:
+        memory: 1G
+      limits:
+        memory: 2G
+    config:
+      exporters:
+        otlphttp:
+          endpoint: 'http://vizares-observability:8080'
+      service:
+        pipelines:
+          traces:
+            receivers: [ otlp ]
+            processors: [ memory_limiter, resource, batch ]
+            exporters: [ otlphttp ]
+          metrics:
+            receivers: [ otlp ]
+            processors: [ memory_limiter, resource, batch ]
+            exporters: [ debug ]
+          logs:
+            receivers: [ otlp ]
+            processors: [ memory_limiter, resource, batch ]
+            exporters: [ otlphttp ]
+  components:
+    frontend:
+      resources:
+        limits:
+          cpu: 500m
+          memory: 500M
+      replicas: 1
+    cartService:
+      replicas: 1
+      resources:
+        limits:
+          memory: 200M
+          cpu: 500m
+    checkoutService:
+      replicas: 1
+      resources:
+        limits:
+          memory: 100M
+          cpu: 500m
+    quoteService:
+      replicas: 1
+    emailService:
+      resources:
+        limits:
+          memory: 300M
+    productCatalogService:
+      replicas: 1
+      resources:
+        requests:
+          memory: 10M
+          cpu: 100m
+        limits:
+          memory: 20M
+          cpu: 500m
+    frontendProxy:
+      service:
+        type: NodePort
+        nodePort: 30005
+    loadgenerator:
+      resources:
+        limits:
+          memory: 500M
+      env:
+        - name: LOCUST_WEB_PORT
+          value: "8089"
+        - name: LOCUST_USERS
+          value: "300"
+        - name: LOCUST_SPAWN_RATE
+          value: "1"
+        - name: LOCUST_HOST
+          value: 'http://{{ include "otel-demo.name" . }}-frontendproxy:8080'
+        - name: LOCUST_HEADLESS
+          value: "false"
+        - name: LOCUST_AUTOSTART
+          value: "true"
+        - name: PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION
+          value: python
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: http://$(OTEL_COLLECTOR_NAME):4317
+
+redis:
+  fullnameOverride: "redis"
+  architecture: standalone
+  auth:
+    enabled: false
+  metrics:
+    enabled: true
+
+vizares:
+  vizaresConnect:
+    enabled: false
+    projectToken: ""
+  vizaresCE:
+    fullnameOverride: vizares
+    service:
+      type: NodePort
+      nodePort: 30001
+  vizaresClusterAgent:
+    fullnameOverride: vizares-cluster-agent
+  node-agent:
+    fullnameOverride: vizares-node-agent
+    env:
+      - name: EPHEMERAL_PORT_RANGE
+        value: "50054-60999"
+  clickhouse:
+    fullnameOverride: vizares-clickhouse
+    auth:
+      password: "clickhouse_password"
+  prometheus:
+    server:
+      fullnameOverride: vizares-prometheus-server
+    kube-state-metrics:
+      fullnameOverride: vizares-kube-state-metrics
+
+chaos-mesh:
+  rbac:
+    create: true
+  dashboard:
+    securityMode: false
+    service:
+      type: NodePort
+      nodePort: 30003
+#  chaosDaemon:
+#    runtime: containerd
+#    socketPath: /run/k3s/containerd/containerd.sock
+
+

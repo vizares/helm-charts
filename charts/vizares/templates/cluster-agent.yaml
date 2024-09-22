@@ -1,0 +1,121 @@
+{{- if .Values.vizaresClusterAgent.enabled -}}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "vizaresClusterAgent.name" . }}
+  labels:
+    {{- include "vizaresClusterAgent.labels" . | nindent 4 }}
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "vizaresClusterAgent.name" . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "vizaresClusterAgent.name" . }}
+    namespace: {{ include "vizares.namespace" . }}
+roleRef:
+  kind: ClusterRole
+  name: view
+  apiGroup: rbac.authorization.k8s.io
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "vizaresClusterAgent.name" . }}
+  labels:
+    {{- include "vizaresClusterAgent.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    {{- include "vizaresClusterAgent.selectorLabels" . | nindent 6 }}
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "vizaresClusterAgent.name" . }}
+  labels:
+    {{- include "vizaresClusterAgent.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "vizaresClusterAgent.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ toYaml .Values.vizaresClusterAgent.config | sha256sum }}
+        {{- with .Values.vizaresClusterAgent.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "vizaresClusterAgent.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.vizaresClusterAgent.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "vizaresClusterAgent.name" . }}
+      securityContext:
+        {{- toYaml .Values.vizaresClusterAgent.podSecurityContext | nindent 8 }}
+      containers:
+        - name: cluster-agent
+          securityContext:
+            {{- toYaml .Values.vizaresClusterAgent.securityContext | nindent 12 }}
+          image: "{{ .Values.vizaresClusterAgent.image.repository }}:{{ .Values.vizaresClusterAgent.image.tag }}"
+          imagePullPolicy: {{ .Values.vizaresClusterAgent.image.pullPolicy }}
+          env:
+            - name: LISTEN
+              value: "{{ .Values.vizaresClusterAgent.config.listen }}"
+            - name: VIZARES_URL
+              value: "{{ .Values.vizaresClusterAgent.config.vizares_url }}"
+            - name: API_KEY
+              value: "{{ .Values.vizaresClusterAgent.config.api_key }}"
+            - name: CONFIG_UPDATE_INTERVAL
+              value: "{{ .Values.vizaresClusterAgent.config.config.update.interval }}"
+            - name: CONFIG_UPDATE_TIMEOUT
+              value: "{{ .Values.vizaresClusterAgent.config.config.update.timeout }}"
+            - name: METRICS_SCRAPE_INTERVAL
+              value: "{{ .Values.vizaresClusterAgent.config.metrics.scrape.interval }}"
+            - name: METRICS_SCRAPE_TIMEOUT
+              value: "{{ .Values.vizaresClusterAgent.config.metrics.scrape.timeout }}"
+            - name: METRICS_WAL_DIR
+              value: "{{ .Values.vizaresClusterAgent.config.metrics.wal_dir }}"
+            - name: PROFILES_SCRAPE_INTERVAL
+              value: "{{ .Values.vizaresClusterAgent.config.profiles.scrape.interval }}"
+            - name: PROFILES_SCRAPE_TIMEOUT
+              value: "{{ .Values.vizaresClusterAgent.config.profiles.scrape.timeout }}"
+          {{- with .Values.vizaresClusterAgent.env }}
+          {{- . | toYaml | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.vizaresClusterAgent.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp
+              readOnly: false
+      volumes:
+        - emptyDir: {}
+          name: tmp
+      {{- with .Values.vizaresClusterAgent.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.vizaresClusterAgent.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.vizaresClusterAgent.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end -}}

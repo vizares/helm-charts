@@ -1,0 +1,80 @@
+{{- if and .Values.vizaresCE.enabled .Values.vizaresCE.ingress.enabled -}}
+{{- $fullName := include "vizares.fullname" . -}}
+{{- $svcPort := .Values.vizaresCE.service.port -}}
+{{- if and .Values.vizaresCE.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
+  {{- if not (hasKey .Values.vizaresCE.ingress.annotations "kubernetes.io/ingress.class") }}
+  {{- $_ := set .Values.vizaresCE.ingress.annotations "kubernetes.io/ingress.class" .Values.vizaresCE.ingress.className}}
+  {{- end }}
+{{- end }}
+{{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1
+{{- else if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1beta1
+{{- else -}}
+apiVersion: extensions/v1beta1
+{{- end }}
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "vizares.labels" . | nindent 4 }}
+  {{- with .Values.vizaresCE.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if and .Values.vizaresCE.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
+  ingressClassName: {{ .Values.vizaresCE.ingress.className }}
+  {{- end }}
+  {{- if .Values.vizaresCE.ingress.tls }}
+  tls:
+    {{- range .Values.vizaresCE.ingress.tls }}
+    - hosts:
+        {{- range .hosts }}
+        - {{ . | quote }}
+        {{- end }}
+      secretName: {{ .secretName }}
+    {{- end }}
+  {{- end }}
+  rules:
+    {{- if .Values.vizaresCE.ingress.hostname }}
+    - host: {{ .Values.vizaresCE.ingress.hostname | quote }}
+      http:
+        paths:
+          - path: {{ .Values.vizaresCE.ingress.path }}
+            {{- if and .Values.vizaresCE.ingress.pathType (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
+            pathType: {{ .Values.vizaresCE.ingress.pathType }}
+            {{- end }}
+            backend:
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: {{ $fullName }}
+                port:
+                  number: {{ $svcPort }}
+              {{- else }}
+              serviceName: {{ $fullName }}
+              servicePort: {{ $svcPort }}
+              {{- end }}
+    {{- end }}
+    {{- range .Values.vizaresCE.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ .path }}
+            {{- if and .pathType (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
+            pathType: {{ .pathType }}
+            {{- end }}
+            backend:
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: {{ $fullName }}
+                port:
+                  number: {{ $svcPort }}
+              {{- else }}
+              serviceName: {{ $fullName }}
+              servicePort: {{ $svcPort }}
+              {{- end }}
+          {{- end }}
+    {{- end }}
+{{- end -}}

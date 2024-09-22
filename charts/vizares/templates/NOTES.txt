@@ -1,0 +1,46 @@
+CHART NAME: {{ .Chart.Name  }}
+CHART VERSION: {{ .Chart.Version  }}
+VIZARES VERSION: {{ .Chart.AppVersion  }}
+
+Please wait until Vizares's components are deployed. You can monitor the status by:
+
+  kubectl -n {{ .Release.Namespace }} get pods
+
+Please wait until all the pods are in the "Running" STATUS and READY.
+
+{{ if .Values.vizaresCE.ingress.enabled }}
+Visit Vizares at the ingress URL(s):
+{{- if .Values.vizaresCE.ingress.hostname }}
+  http{{ if $.Values.vizaresCE.ingress.tls }}s{{ end }}://{{ .Values.vizaresCE.ingress.hostname }}{{ .Values.vizaresCE.ingress.path }}
+{{- end }}
+{{- range $host := .Values.vizaresCE.ingress.hosts }}
+  {{- range .paths }}
+  http{{ if $.Values.vizaresCE.ingress.tls }}s{{ end }}://{{ $host.host }}{{ .path }}
+  {{- end }}
+{{- end }}
+
+or
+{{ else if contains "NodePort" .Values.vizaresCE.service.type}}
+Get the Vizares URL by running these commands in the same shell:
+  export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ include "vizares.fullname" . }})
+  export NODE_IP=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
+  echo http://$NODE_IP:$NODE_PORT
+
+or
+{{ else if contains "LoadBalancer" .Values.vizaresCE.service.type }}
+Get the Vizares URL by running these commands in the same shell:
+     NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+           You can watch the status of by running 'kubectl get --namespace {{ .Release.Namespace }} svc -w {{ include "vizares.fullname" . }}'
+  export SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ include "vizares.fullname" . }} --template "{{"{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}"}}")
+  echo http://$SERVICE_IP:{{ .Values.vizaresCE.service.port }}
+
+or
+{{ end }}
+Forward the Vizares port to your machine:
+
+  kubectl --namespace {{ .Release.Namespace }} port-forward service/{{ include "vizares.fullname" . }} 8080:{{ .Values.vizaresCE.service.port }}
+
+Then, you can access Vizares at http://127.0.0.1:8080
+
+For more information on running Vizares, visit https://vizares.com/docs/vizares-community-edition/getting-started/installation
+

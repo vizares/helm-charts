@@ -1,0 +1,12 @@
+{{- if and .Values.existingPrometheus.enabled (index .Values "existingPrometheus" "node-agent-podmonitor" "enabled")  (index .Values "node-agent" "enabled")  -}}
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: vizares-node-agent
+spec:
+  selector:
+    matchLabels:
+      app: vizares-node-agent
+  podMetricsEndpoints:
+    - port: http
+{{- end -}}
