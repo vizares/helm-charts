@@ -15,7 +15,7 @@ opentelemetry-demo:
     config:
       exporters:
         otlphttp:
-          endpoint: 'http://vizares-observability:8080'
+          endpoint: 'http://vizares:8080'
       service:
         pipelines:
           traces:

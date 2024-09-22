@@ -105,7 +105,7 @@ vizaresClusterAgent:
   fullnameOverride: ""
   config:
     listen: :8080
-    vizares_url: http://vizares-observability:8080
+    coroot_url: http://vizares:8080
     api_key:
     config:
       update:
@@ -413,9 +413,9 @@ existingPrometheus:
 
 node-agent:
   enabled: true
-  tracesEndpoint: "http://vizares-observability:8080/v1/traces"
-  logsEndpoint: "http://vizares-observability:8080/v1/logs"
-  profilesEndpoint: "http://vizares-observability:8080/v1/profiles"
+  tracesEndpoint: "http://vizares:8080/v1/traces"
+  logsEndpoint: "http://vizares:8080/v1/logs"
+  profilesEndpoint: "http://vizares:8080/v1/profiles"
 
 clickhouse:
   enabled: true

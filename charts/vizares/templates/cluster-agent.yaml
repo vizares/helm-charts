@@ -76,8 +76,8 @@ spec:
           env:
             - name: LISTEN
               value: "{{ .Values.vizaresClusterAgent.config.listen }}"
-            - name: VIZARES_URL
-              value: "{{ .Values.vizaresClusterAgent.config.vizares_url }}"
+            - name: COROOT_URL
+              value: "{{ .Values.vizaresClusterAgent.config.coroot_url }}"
             - name: API_KEY
               value: "{{ .Values.vizaresClusterAgent.config.api_key }}"
             - name: CONFIG_UPDATE_INTERVAL
