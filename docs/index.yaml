@@ -3,7 +3,7 @@ entries:
   aws-agent:
   - apiVersion: v2
     appVersion: 0.0.1
-    created: "2024-09-22T23:09:45.3836672+05:30"
+    created: "2024-09-22T23:17:53.1622505+05:30"
     description: A prometheus exporter that gathers metrics from AWS services.
     digest: b908eb7517c4eb69e917032d671934eeea3e4c8b925118fdd82bc3eb8706c84d
     name: aws-agent
@@ -13,11 +13,11 @@ entries:
     version: 0.0.1
   node-agent:
   - apiVersion: v2
-    appVersion: 0.0.2
-    created: "2024-09-22T23:09:45.3836672+05:30"
+    appVersion: 1.21.4
+    created: "2024-09-22T23:17:53.1667613+05:30"
     description: A Prometheus exporter based on eBPF that gathers comprehensive container
       metrics.
-    digest: 6817707add5e8137a376cd8b1978bcd8f6128f5721b9b9004f8723d0121628b7
+    digest: bbc532417c95b48e5c1d5070bc0556627d52c44e546a5ff8946810736eace562
     name: node-agent
     type: application
     urls:
@@ -26,7 +26,7 @@ entries:
   otel-demo:
   - apiVersion: v2
     appVersion: 0.0.1
-    created: "2024-09-22T23:09:45.4283521+05:30"
+    created: "2024-09-22T23:17:53.2092606+05:30"
     dependencies:
     - name: opentelemetry-demo
       repository: https://open-telemetry.github.io/opentelemetry-helm-charts
@@ -47,7 +47,7 @@ entries:
   vizares:
   - apiVersion: v2
     appVersion: 0.0.2
-    created: "2024-09-22T23:09:45.4434315+05:30"
+    created: "2024-09-22T23:17:53.2200051+05:30"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -68,4 +68,4 @@ entries:
     urls:
     - https://vizares.github.io/helm-charts/vizares-0.0.2.tgz
     version: 0.0.2
-generated: "2024-09-22T23:09:45.3830453+05:30"
+generated: "2024-09-22T23:17:53.1616028+05:30"
