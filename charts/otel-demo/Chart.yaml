@@ -9,7 +9,7 @@ dependencies:
     version: 0.28.3
     repository: https://open-telemetry.github.io/opentelemetry-helm-charts
   - name: vizares
-    version: 0.10.17
+    version: 0.0.2
     repository: https://vizares.github.io/helm-charts
   - name: chaos-mesh
     version: 2.6.3
