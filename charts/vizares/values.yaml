@@ -13,7 +13,7 @@ vizaresCE:
     pullPolicy: IfNotPresent
     tag: ""
   imagePullSecrets:
-  - name: gcr-json-key
+  - name: gcr-secret
   nameOverride: ""
   fullnameOverride: ""
   serviceAccount:
