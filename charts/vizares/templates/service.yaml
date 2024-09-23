@@ -16,7 +16,7 @@ spec:
       {{- if .Values.vizaresCE.service.nodePort }}
       nodePort: {{ .Values.vizaresCE.service.nodePort }}
       {{- end }}
-      targetPort: http
+      targetPort: {{ .Values.vizaresCE.service.port }}
       protocol: TCP
       name: http
   selector:

@@ -31,7 +31,7 @@ vizaresCE:
     # runAsNonRoot: true
   # runAsUser: 1000
   service:
-    type: ClusterIP
+    type: LoadBalancer
     port: 8080
     annotations: {}
   ingress:
