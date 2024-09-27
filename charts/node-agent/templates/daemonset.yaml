@@ -36,7 +36,7 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: ["coroot-node-agent", "--listen=0.0.0.0:{{ .Values.port }}", "--cgroupfs-root", "/host/sys/fs/cgroup"]
+          command: ["vizares-node-agent", "--listen=0.0.0.0:{{ .Values.port }}", "--cgroupfs-root", "/host/sys/fs/cgroup"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
