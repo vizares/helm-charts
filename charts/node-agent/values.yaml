@@ -1,9 +1,10 @@
 image:
-  repository: ghcr.io/coroot/coroot-node-agent
+  repository: gcr.io/ebpf-observability/vizares-node-agent
   pullPolicy: IfNotPresent
   tag: ""
 
-imagePullSecrets: []
+imagePullSecrets:
+- name: gcr-secret
 nameOverride: ""
 fullnameOverride: ""
 updateStrategy:
