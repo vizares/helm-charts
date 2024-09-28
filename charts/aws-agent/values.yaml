@@ -14,13 +14,14 @@ ec:
 replicaCount: 1
 
 image:
-  repository: ghcr.io/coroot/coroot-aws-agent
+  repository: gcr.io/ebpf-observability/vizares-aws-agent
   pullPolicy: IfNotPresent
   tag: ""
 
 port: 80
 
-imagePullSecrets: []
+imagePullSecrets:
+- name: gcr-secret
 nameOverride: ""
 fullnameOverride: ""
 

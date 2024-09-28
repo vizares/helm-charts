@@ -84,10 +84,11 @@ vizaresConnect:
       traces_table: otel_traces
       logs_table: otel_logs
   image:
-    repository: ghcr.io/coroot/coroot-connect
+    repository: gcr.io/ebpf-observability/vizares-connect
     pullPolicy: IfNotPresent
-    tag: "2.0.5"
-  imagePullSecrets: []
+    tag: "0.0.1"
+  imagePullSecrets:
+  - name: gcr-secret
   podAnnotations: {}
   podSecurityContext: {}
   securityContext: {}
@@ -105,7 +106,7 @@ vizaresClusterAgent:
   fullnameOverride: ""
   config:
     listen: :8080
-    coroot_url: http://vizares:8080
+    vizares_url: http://vizares:8080
     api_key:
     config:
       update:
@@ -121,10 +122,11 @@ vizaresClusterAgent:
         interval: 1m
         timeout: 10s
   image:
-    repository: ghcr.io/coroot/coroot-cluster-agent
+    repository: gcr.io/ebpf-observability/vizares-cluster-agent
     pullPolicy: IfNotPresent
-    tag: "1.0.4"
-  imagePullSecrets: []
+    tag: "0.0.1"
+  imagePullSecrets:
+  - name: gcr-secret
   podAnnotations: {}
   podSecurityContext: {}
   securityContext: {}
