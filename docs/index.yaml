@@ -3,7 +3,7 @@ entries:
   aws-agent:
   - apiVersion: v2
     appVersion: 0.0.1
-    created: "2024-09-30T16:58:57.4427871+05:30"
+    created: "2024-09-30T17:04:25.8824015+05:30"
     description: A prometheus exporter that gathers metrics from AWS services.
     digest: 2ce0865037a65a82cba9c8c1d3c4ff91ed081c738cc9a8766658f5712bd3d258
     name: aws-agent
@@ -14,7 +14,7 @@ entries:
   node-agent:
   - apiVersion: v2
     appVersion: 0.0.2
-    created: "2024-09-30T16:58:57.4470928+05:30"
+    created: "2024-09-30T17:04:25.8831174+05:30"
     description: A Prometheus exporter based on eBPF that gathers comprehensive container
       metrics.
     digest: 64b57041da9dc12b96c85232e045c310a86f2afa5a0e573d275973ada2f2ae35
@@ -25,7 +25,7 @@ entries:
     version: 0.0.3
   - apiVersion: v2
     appVersion: 0.0.1
-    created: "2024-09-30T16:58:57.4470928+05:30"
+    created: "2024-09-30T17:04:25.8826125+05:30"
     description: A Prometheus exporter based on eBPF that gathers comprehensive container
       metrics.
     digest: 9dc25ffc9f14364d35e4e0cb49e6b20dfab7463fb34e4cf64274ff9e860d2b40
@@ -37,7 +37,7 @@ entries:
   otel-demo:
   - apiVersion: v2
     appVersion: 0.0.1
-    created: "2024-09-30T16:58:57.4958003+05:30"
+    created: "2024-09-30T17:04:25.9244566+05:30"
     dependencies:
     - name: opentelemetry-demo
       repository: https://open-telemetry.github.io/opentelemetry-helm-charts
@@ -57,8 +57,31 @@ entries:
     version: 0.0.1
   vizares:
   - apiVersion: v2
+    appVersion: 0.0.3
+    created: "2024-09-30T17:04:25.9553246+05:30"
+    dependencies:
+    - condition: prometheus.enabled
+      name: prometheus
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 25.21.*
+    - condition: node-agent.enabled
+      name: node-agent
+      repository: https://vizares.github.io/helm-charts
+      version: 0.0.3
+    - condition: clickhouse.enabled
+      name: clickhouse
+      repository: https://charts.bitnami.com/bitnami
+      version: 6.2.*
+    description: A monitoring and troubleshooting tool for microservice architectures.
+    digest: 1c677c41b675af96fb4f970295ecec8f03c48535515a341e9208cb7a93e70791
+    name: vizares
+    type: application
+    urls:
+    - https://vizares.github.io/helm-charts/vizares-0.0.4.tgz
+    version: 0.0.4
+  - apiVersion: v2
     appVersion: 0.0.2
-    created: "2024-09-30T16:58:57.5255341+05:30"
+    created: "2024-09-30T17:04:25.9454976+05:30"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -81,7 +104,7 @@ entries:
     version: 0.0.3
   - apiVersion: v2
     appVersion: 0.0.2
-    created: "2024-09-30T16:58:57.5102749+05:30"
+    created: "2024-09-30T17:04:25.935324+05:30"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -102,4 +125,4 @@ entries:
     urls:
     - https://vizares.github.io/helm-charts/vizares-0.0.2.tgz
     version: 0.0.2
-generated: "2024-09-30T16:58:57.4323276+05:30"
+generated: "2024-09-30T17:04:25.8818972+05:30"

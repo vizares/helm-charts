@@ -124,7 +124,7 @@ vizaresClusterAgent:
   image:
     repository: gcr.io/ebpf-observability/vizares-cluster-agent
     pullPolicy: IfNotPresent
-    tag: "0.0.1"
+    tag: "0.0.2"
   imagePullSecrets:
   - name: gcr-secret
   podAnnotations: {}
